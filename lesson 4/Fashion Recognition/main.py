@@ -30,7 +30,9 @@ for e in range(epochs):
 
 	else:
 		with torch.no_grad():
+			model.eval()
 			for images, labels in data.testData():
+
 				a3 		= model(images)
 				loss	= criterion(a3, labels)
 
@@ -41,7 +43,8 @@ for e in range(epochs):
 
 				accuracy  += torch.mean(equal.type(torch.FloatTensor))
 				test_loss += loss
-
+		
+		model.train()
 		print('Epoch {}/{}\n\tTrain Loss: {}\n\tTest Loss: {}\n\tAccuracy: {}'
 				.format(e+1, epochs, train_loss/len(data.trainData()), test_loss/len(data.trainData()), (accuracy * 100)/len(data.testData())))
 

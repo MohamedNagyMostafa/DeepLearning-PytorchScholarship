@@ -14,13 +14,15 @@ class NeuralClassifier(Module):
 		self.L2 = nn.Linear(n_hidden1, n_hidden2)
 		self.L3 = nn.Linear(n_hidden2, n_output)
 
+		self.dropout = nn.Dropout(p=0.2)
+
 	def forward(self, images):
 		x = images.view(images.shape[0], -1)
 
 		z1 = self.L1(x)
-		a1 = F.relu(z1)
+		a1 = self.dropout(F.relu(z1))
 		z2 = self.L2(a1)
-		a2 = F.relu(z2)
+		a2 = self.dropout(F.relu(z2))
 		z3 = self.L3(a2)
 		a3 = F.log_softmax(z3, dim=1)
 
